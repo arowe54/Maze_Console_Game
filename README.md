@@ -4,7 +4,7 @@ This game uses ray tracing to map a maze to the Windows Powershell console in fi
 
 Navigate through the maze using: 
 - **A/D** to rotate the field of view left/right 
-- **W/D** to move forward/backward.
+- **W/S** to move forward/backward.
 
 
 ## Installation
