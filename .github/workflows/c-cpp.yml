@@ -13,9 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up msbuild
-      run: |
-        $env:MSBuildPath = "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
-        $env:PATH += ";$env:MSBuildPath"
+      uses: microsoft/setup-msbuild@v1.1 # This ensures MSBuild is available
 
     - name: Build with MSBuild
       run: |
