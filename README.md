@@ -8,15 +8,24 @@ Navigate through the maze using:
 
 
 ## Installation
-> 1. Clone the repository:
+> 1. Clone the repository into Microsoft Visual Studio 2022:
 ```bash 
 git clone https://github.com/arowe54/Maze_Console_Game.git
 ```
-> 2. Go to the project folder
+> 2. Press run
+
+OR
+
+> 2. Build it in a Console
 ``` bash
-cd Console_Maze
+msbuild "Solution_Maze.sln" /p:Configuration=Release /p:Platform=x64
 ```
-> 3. Run Console_Maze.cpp
+> 3. Run it
+```bash
+.\x64\Release\Console_Maze.exe
+```
+
+
 
 ## Setup
 Use Windows PowerShell for the Console.
