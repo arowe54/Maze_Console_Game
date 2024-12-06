@@ -18,11 +18,15 @@ jobs:
 
     - name: Generate configure script if missing
       run: |
-        if [ ! -f ./configure ]; then
-          sudo apt-get update
-          sudo apt-get install -y autoconf automake
-          autoreconf -i
-        fi
+          if [ ! -f ./configure ]; then
+            if [ -f ./configure.ac ]; then
+              sudo apt-get update
+              sudo apt-get install -y autoconf automake
+              autoreconf -i
+            else
+              echo "No configure or configure.ac found. Skipping autoconf."
+            fi
+          fi
     
     - name: configure
       run: ./configure
