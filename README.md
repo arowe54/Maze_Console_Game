@@ -27,6 +27,16 @@ Use Windows PowerShell for the Console.
 
 Note: This project uses Microsoft Visual Studio 2022 based on a C++ Console Application Project.
 
+## Screenshots
+![Screenshot One](./assets/Screenshot_Console1.png)
+Figure 1: Screenshot of the Console with the Player near the Top
+
+
+
+![Screenshot_Two](./assets/Screenshot_Console2.png)
+Figure 2: Screenshot of the Console with the Player near the Middle
+
+
 
 ## Credit
 Functional code and HUD based on this Youtube Video from javidx9 : https//www.youtube.com/watch?v=xW8skO7MFYw&list=WL&index=14&t=4s 
