@@ -43,10 +43,9 @@ int main()
     SetConsoleActiveScreenBuffer(hConsole);
     DWORD dwBytesWritten = 0;
 
-    // map
+    // map (26 rows by 30 columns)
     wstring map;
-    // 28 rows
-    map += L"##############################"; // 30 columns
+    map += L"##############################";
     map += L"#................##..........#";
     map += L"#.#####.########.##.##.#####.#";
     map += L"#.#####.#......#.##.##.....#.#";
