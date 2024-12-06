@@ -18,6 +18,3 @@ jobs:
     - name: Build with MSBuild
       run: |
         msbuild "Solution_Maze.sln" /p:Configuration=Release /p:Platform=x64
-    - name: Run
-      run: |
-        .\x64\Release\Console_Maze.exe
