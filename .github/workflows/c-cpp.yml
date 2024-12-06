@@ -15,8 +15,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install build dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y g++
+        choco install mingw
     - name: Compile
       run: |
         g++ -o build/maze Console_Maze/Console_Maze.cpp
