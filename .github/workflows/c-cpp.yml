@@ -12,6 +12,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set up msbuild
+      run: |
+        $env:MSBuildPath = "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
+        $env:PATH += ";$env:MSBuildPath"
+
     - name: Build with MSBuild
       run: |
         msbuild "Solution_Maze.sln" /p:Configuration=Release /p:Platform=x64
