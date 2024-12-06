@@ -12,18 +12,7 @@ Navigate through the maze using:
 ```bash 
 git clone https://github.com/arowe54/Maze_Console_Game.git
 ```
-> 2. Press run
-
-OR
-
-> 2. Build it in a Console
-``` bash
-msbuild "Solution_Maze.sln" /p:Configuration=Release /p:Platform=x64
-```
-> 3. Run it
-```bash
-.\x64\Release\Console_Maze.exe
-```
+> 2. Press Run using the Visual Studio GUI to Run the Program
 
 
 
