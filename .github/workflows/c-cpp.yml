@@ -13,6 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: List files recursively
+      run: ls -la
+
+    - name: Generate configure script if missing
+      run: |
+        if [ ! -f ./configure ]; then
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake
+          autoreconf -i
+        fi
+    
     - name: configure
       run: ./configure
     - name: make
