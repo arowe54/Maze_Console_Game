@@ -13,12 +13,15 @@ using namespace std;
 #include <Windows.h>
 
 // Setup
-// set screen width and height of console to 120 rows (or 96) by 40 columns
+// set screen width and height of console to 156 rows for full screen by 41 columns in console settings (launch size)
 // set the font to consolas size 16
 // may have to adjust screen and map size
 
-int nScreenWidth = 96;  // youtube video says 120 but 96 matches the demo best with 40 height
-int nScreenHeight = 30; // 40
+// TODO: Apply Texture Mapping
+// TODO: Render the map using binary space partitioning?
+
+int nScreenWidth = 156;  // 156 for full screen dell laptop (or 120 for smaller screen)
+int nScreenHeight = 41;
 
 int nMapHeight = 26.0f; // rows
 int nMapWidth = 30.0f;  // columns
@@ -30,7 +33,7 @@ float fPlayerA_deg = 0.0f;
 
 
 float fFOV = 3.14159 / 4; // pi/4
-float fDepth = 16.0f;       // 16.0f
+float fDepth = 16.0f;     // 16.0f
 
 float rotation_sensitivity = 1.0f;
 float move_speed = 5.0f;
@@ -56,7 +59,7 @@ int main()
     map += L"#####.########.#..........##.#";
     map += L"#.........####.############..#";
     map += L"#.########.....#............##";
-    map += L"#.#......#######.#.###########";
+    map += L"#.#......####..#.#.###########";
     map += L"#.#.############.#.#####.....#";
     map += L"###............#.#.#####.###.#";
     map += L"#...#########.##.#.#####.###.#";
@@ -228,20 +231,46 @@ int main()
         }
 
         fPlayerA_deg = (fPlayerA + 5.00f) * (-18.00f);
+        string empty = " ";
         // Display Stats
-        swprintf_s(screen, 40, L"X=%3.2f, Y=%3.2f, A=%3.1f FPS=%3.1f ", fPlayerX, fPlayerY, fPlayerA_deg, 1.0f / fElapsedTime);
+        swprintf_s(screen, 160, L"X=%3.2f, Y=%3.2f, A=%3.1f FPS=%3.1f %-120s", fPlayerX, fPlayerY, fPlayerA_deg, 1.0f / fElapsedTime, empty); // 40 chars
+                
 
+        // Map with Player centered at a square (size*size)
+        int map_size = 5;
+        int y_offset, x_offset;
+        int x_pos, y_pos;
         // draw map
-        for (int nx = 0; nx < nMapWidth; nx++)
+        for (int nx = -map_size; nx <= map_size; nx++)
         {
-            for (int ny = 0; ny < nMapHeight; ny++)
+            for (int ny = -map_size; ny <= map_size; ny++)
+            {
+                y_offset = (int)fPlayerY + ny;
+                x_offset = (int)fPlayerX + nx;
+                x_pos = nx + map_size;
+                y_pos = ny + map_size + 1;
+
+                if (y_offset < 0 || y_offset >= nMapHeight || x_offset < 0 || x_offset >= nMapWidth) { screen[y_pos * nScreenWidth + x_pos] = ' '; }
+                else { screen[y_pos * nScreenWidth + x_pos] = map[y_offset * nMapWidth + x_offset]; }
+
+                if (nx == 0 && ny == 0) { screen[y_pos * nScreenWidth + x_pos] = 'P'; }
+            }
+        }
+
+
+        /* // full size map
+        // for (int nx = 0; nx < nMapWidth; nx++)
+        {
+           for (int ny = 0; ny < nMapHeight; ny++)
             {
                 screen[(ny + 1) * nScreenWidth + nx] = map[ny * nMapWidth + nx];
             }
         }
+        */
+        
         // Sometimes the map is a little weird and you have to move based on the relative angle and not the map
 
-        screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX] = 'P';
+        // screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX] = 'P';
 
         // Write to Screen
         screen[nScreenWidth * nScreenHeight - 1] = '\0'; // Set last character to the escape character
