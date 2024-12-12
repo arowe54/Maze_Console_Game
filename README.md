@@ -4,19 +4,17 @@ This game uses ray tracing to map a maze to the Windows Powershell console in fi
 
 Navigate through the maze using: 
 - **A/D** to rotate the field of view left/right 
-- **W/D** to move forward/backward.
+- **W/S** to move forward/backward.
 
 
 ## Installation
-> 1. Clone the repository:
+> 1. Clone the repository into Microsoft Visual Studio 2022:
 ```bash 
 git clone https://github.com/arowe54/Maze_Console_Game.git
 ```
-> 2. Go to the project folder
-``` bash
-cd Console_Maze
-```
-> 3. Run Console_Maze.cpp
+> 2. Press Run using the Visual Studio GUI to Run the Program
+
+
 
 ## Setup
 Use Windows PowerShell for the Console.
