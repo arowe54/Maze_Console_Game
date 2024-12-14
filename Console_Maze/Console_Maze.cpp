@@ -8,6 +8,9 @@
 #include <utility>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
+
+
 using namespace std;
 
 #include <Windows.h>
@@ -26,9 +29,9 @@ int nScreenHeight = 41;
 int nMapHeight = 26.0f; // rows
 int nMapWidth = 30.0f;  // columns
 
-float fPlayerX = 1.0f;  // x pos
-float fPlayerY = 1.0f;  // y pos
-float fPlayerA = 0.0f;  // angle
+float fPlayerX = 7.0f;  // x pos
+float fPlayerY = 24.0f;  // y pos
+float fPlayerA = 3.0f;  // angle
 float fPlayerA_deg = 0.0f;
 
 
@@ -49,31 +52,32 @@ int main()
     // map (26 rows by 30 columns)
     wstring map;
     map += L"##############################";
-    map += L"#................##..........#";
-    map += L"#.#####.########.##.##.#####.#";
-    map += L"#.#####.#......#.##.##.....#.#";
-    map += L"#.#####.#.######....##.###.#.#";
-    map += L"#.....#.#......#######.###.###";
-    map += L"#####.#.######.........#.....#";
-    map += L"#.....#......#.######.######.#";
-    map += L"#####.########.#..........##.#";
-    map += L"#.........####.############..#";
-    map += L"#.########.....#............##";
-    map += L"#.#......####..#.#.###########";
-    map += L"#.#.############.#.#####.....#";
-    map += L"###............#.#.#####.###.#";
-    map += L"#...#########.##.#.#####.###.#";
-    map += L"#.#####.....#.####........##.#";
-    map += L"#.#####.###.#.#....######....#";
-    map += L"#.#####.###.#.###########.#.##";
-    map += L"#.#.....#...................##";
-    map += L"#.#.###.##############.###.###";
-    map += L"#.#.###.......#.....###.##...#";
-    map += L"#.#.###.###########.###.##.#.#";
-    map += L"#...###...........#.....##.#.#";
-    map += L"#################.#.##########";
-    map += L"#............................#";
+    map += L"######......................##";
+    map += L"######...#################..##";
+    map += L"######...#################..##";
+    map += L"#######.#############........#";
+    map += L"###.........#########........#";
+    map += L"###..........#......#........#";
+    map += L"###..........................#";
+    map += L"###..........#......#........#";
+    map += L"###.........####....#........#";
+    map += L"###.........#####..##........#";
+    map += L"######...########..###########";
+    map += L"######...########..###########";
+    map += L"######...########..###########";
+    map += L"######...########..#..#...#..#";
+    map += L"######...########............#";
+    map += L"######...########..#....#....#";
+    map += L"#######.##################..##";
+    map += L"#....#...#....############..##";
+    map += L"#.............############..##";
+    map += L"#....#...#....############..##";
+    map += L"######...#################..##";
+    map += L"#.............###########...##";
+    map += L"#...........................##";
+    map += L"#.............###########...##";
     map += L"##############################";
+
 
     auto tp1 = chrono::system_clock::now();
     auto tp2 = chrono::system_clock::now();
@@ -123,6 +127,12 @@ int main()
                 fPlayerX += sinf(fPlayerA) * move_speed * fElapsedTime;
                 fPlayerY += cosf(fPlayerA) * move_speed * fElapsedTime;
             }
+        }
+
+        // press tab to turn around
+        if (GetAsyncKeyState((unsigned short)VK_TAB) & 0x8000)
+        {
+            fPlayerA = fmod(fPlayerA + 3.14159f, 2.0 * 3.14159f); // flip the angle and normalize it to between 0 and 2 pi
         }
 
 
@@ -230,16 +240,20 @@ int main()
             }
         }
 
-        fPlayerA_deg = (fPlayerA + 5.00f) * (-18.00f);
+        // fPlayerA_deg = ((fPlayerA + 5.00f) * (-18.00f)) % 360;
+        fPlayerA_deg = fmod(fPlayerA * 180.0f / 3.14159f, 360.0f);
+        if (fPlayerA_deg < 0) { fPlayerA_deg += 360.0f; }
         string empty = " ";
         // Display Stats
-        swprintf_s(screen, 160, L"X=%3.2f, Y=%3.2f, A=%3.1f FPS=%3.1f %-120s", fPlayerX, fPlayerY, fPlayerA_deg, 1.0f / fElapsedTime, empty); // 40 chars
+        swprintf_s(screen, 160, L"X=%4.2f, Y=%4.2f, A=%3.0d FPS=%3.1f %-119s", fPlayerX, fPlayerY, int(fPlayerA_deg), 1.0f / fElapsedTime, empty); // 40 chars
                 
 
         // Map with Player centered at a square (size*size)
         int map_size = 5;
         int y_offset, x_offset;
         int x_pos, y_pos;
+
+        
         // draw map
         for (int nx = -map_size; nx <= map_size; nx++)
         {
@@ -257,20 +271,23 @@ int main()
             }
         }
 
+        
 
-        /* // full size map
-        // for (int nx = 0; nx < nMapWidth; nx++)
+        /*
+         // full size map
+        for (int nx = 0; nx < nMapWidth; nx++)
         {
            for (int ny = 0; ny < nMapHeight; ny++)
             {
                 screen[(ny + 1) * nScreenWidth + nx] = map[ny * nMapWidth + nx];
             }
         }
-        */
+        
         
         // Sometimes the map is a little weird and you have to move based on the relative angle and not the map
 
-        // screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX] = 'P';
+        screen[((int)fPlayerY + 1) * nScreenWidth + (int)fPlayerX] = 'P';
+        */
 
         // Write to Screen
         screen[nScreenWidth * nScreenHeight - 1] = '\0'; // Set last character to the escape character
